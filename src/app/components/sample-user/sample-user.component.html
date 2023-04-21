@@ -1,0 +1,28 @@
+<form [formGroup]="sampleForm" (ngSubmit)="callingFunction()">
+
+    <div *ngIf="isVisible('field1')">
+        <label for="field1" class="control-label required">First Name</label>
+        <input type="text" class="form-control" formControlName="field1"
+            [ngClass]="{ 'is-invalid': submitted && f.field1.errors }">
+        <div *ngIf="f.field1.errors" class="invalid-feedback">
+            <div>{{errors('field1')}}</div>
+        </div>
+    </div>
+    <div *ngIf="isVisible('field2')">
+        <label for="field2" class="control-label required">Last Name</label>
+        <input type="text" class="form-control" formControlName="field2"
+            [ngClass]="{ 'is-invalid': submitted && f.field2.errors }">
+        <div *ngIf="f.field2.errors" class="invalid-feedback">
+            <div>{{errors('field2')}}</div>
+        </div>
+    </div>
+    <div *ngIf="isVisible('field3')">
+        <label for="field3" class="control-label required">Last Name</label>
+        <input type="text" class="form-control" formControlName="field3"
+            [ngClass]="{ 'is-invalid': submitted && f.field3.errors }">
+        <div *ngIf="f.field3.errors" class="invalid-feedback">
+            <div>{{errors('field3')}}</div>
+        </div>
+    </div>
+    <button type="submit">Submit Application</button>
+</form>
