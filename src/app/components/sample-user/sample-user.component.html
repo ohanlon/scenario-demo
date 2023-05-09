@@ -1,27 +1,27 @@
-<form [formGroup]="sampleForm" (ngSubmit)="callingFunction()">
+<form [formGroup]="sampleForm" (ngSubmit)="onSubmit()">
 
-    <div *ngIf="isVisible('field1')">
-        <label for="field1" class="control-label required">First Name</label>
-        <input type="text" class="form-control" formControlName="field1"
-            [ngClass]="{ 'is-invalid': submitted && f.field1.errors }">
-        <div *ngIf="f.field1.errors" class="invalid-feedback">
-            <div>{{errors('field1')}}</div>
+    <div *ngIf="isVisible('firstName')">
+        <label for="firstName" class="control-label required">First Name</label>
+        <input type="text" class="form-control" formControlName="firstName" placeholder="First Name" title="First Name"
+            [ngClass]="{ 'is-invalid': submitted && controls.firstName.errors }">
+        <div *ngIf="controls.firstName.errors" class="invalid-feedback">
+            <div>{{errors('firstName', 'First name')}}</div>
         </div>
     </div>
-    <div *ngIf="isVisible('field2')">
-        <label for="field2" class="control-label required">Last Name</label>
-        <input type="text" class="form-control" formControlName="field2"
-            [ngClass]="{ 'is-invalid': submitted && f.field2.errors }">
-        <div *ngIf="f.field2.errors" class="invalid-feedback">
-            <div>{{errors('field2')}}</div>
+    <div *ngIf="isVisible('lloydsLastName')">
+        <label for="lloydsLastName" class="control-label required">Last Name</label>
+        <input type="text" class="form-control" formControlName="lloydsLastName" placeholder="Last Name" title="Last Name"
+            [ngClass]="{ 'is-invalid': submitted && controls.lloydsLastName.errors }">
+        <div *ngIf="controls.lloydsLastName.errors" class="invalid-feedback">
+            <div>{{errors('lloydsLastName', 'Last name')}}</div>
         </div>
     </div>
-    <div *ngIf="isVisible('field3')">
-        <label for="field3" class="control-label required">Last Name</label>
-        <input type="text" class="form-control" formControlName="field3"
-            [ngClass]="{ 'is-invalid': submitted && f.field3.errors }">
-        <div *ngIf="f.field3.errors" class="invalid-feedback">
-            <div>{{errors('field3')}}</div>
+    <div *ngIf="isVisible('companyLastName')">
+        <label for="companyLastName" class="control-label required">Last Name</label>
+        <input type="text" class="form-control" formControlName="companyLastName" placeholder="Last Name" title="Last Name"
+            [ngClass]="{ 'is-invalid': submitted && controls.companyLastName.errors }">
+        <div *ngIf="controls.companyLastName.errors" class="invalid-feedback">
+            <div>{{errors('companyLastName', 'Last name')}}</div>
         </div>
     </div>
     <button type="submit">Submit Application</button>

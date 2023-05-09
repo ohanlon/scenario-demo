@@ -22,8 +22,8 @@ describe('SampleUserComponent', () => {
   });
   // it('should have a form with 2 fields', () => {
   //   expect(component.sampleForm).toBeTruthy();
-  //   expect(component.sampleForm.controls['field1']).toBeTruthy();
-  //   expect(component.sampleForm.controls['field2']).toBeTruthy();
+  //   expect(component.sampleForm.controls['firstName']).toBeTruthy();
+  //   expect(component.sampleForm.controls['lloydsLastName']).toBeTruthy();
   // });
 
   

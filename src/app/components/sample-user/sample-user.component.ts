@@ -11,37 +11,38 @@ import { field, view, visibility } from 'src/app/services/ScenarioItem';
 export class SampleUserComponent implements OnInit {
 
   sampleForm = new FormGroup({
-    field1: new FormControl(null),
-    field2: new FormControl(null),
-    field3: new FormControl(null)
+    firstName: new FormControl(null),
+    lloydsLastName: new FormControl(null),
+    companyLastName: new FormControl(null)
   });
   constructor(private scenarioService: ScenarioService) { }
 
   ngOnInit(): void {
-    this.scenarioService.setValidators(this.sampleForm, 'view1', 'lloyds');
+    this.scenarioService.setValidators(this.sampleForm, 'sample-user', 'lloyds');
   }
 
-  callingFunction(): void {
+  onSubmit(): void {
     this.submitted = true;
     if (this.sampleForm.valid) {
       console.log('form submitted');
+      this.sampleForm.reset();
     } else {
       this.scenarioService.triggerValidation(this.sampleForm);
     }
   }
 
   isVisible(field: field): boolean {
-    return this.scenarioService.showInForm('view1', 'lloyds', field);
+    return this.scenarioService.showInForm('sample-user', 'lloyds', field);
   }
 
   submitted: boolean = false;
 
-  get f() { return this.sampleForm.controls; }
+  get controls() { return this.sampleForm.controls; }
 
-  errors(field: field): string {
+  errors(field: field, ...replacements: string[]): string {
     const errors = this.sampleForm.get(field)?.errors;
     if (!errors) return '';
-    return this.scenarioService.getValidationMessage('view1', 'field2', 'lloyds', errors);
+    return this.scenarioService.getValidationMessage('sample-user', 'lloydsLastName', 'lloyds', errors, replacements);
   }
 
 }

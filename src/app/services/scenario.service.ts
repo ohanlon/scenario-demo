@@ -33,21 +33,22 @@ export class ScenarioService {
   }
 
   triggerValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(field => { // {1}
-      const control = form.get(field);            // {2}
-      control!.markAsTouched({ onlySelf: true });       // {3}
+    Object.keys(form.controls).forEach(field => {
+      const control = form.get(field);
+      control!.markAsTouched({ onlySelf: true });
     });
   }
-  getValidationMessage(view: view, field: field, visibility: visibility, validationError: ValidationErrors): string {
+
+  getValidationMessage(view: view, field: field, visibility: visibility, validationError: ValidationErrors, replacements: string[] = []): string {
     const scenario = this.scenarios.filter(s => s.view === view && (s.visibility === visibility || s.visibility === 'all') && s.field === field);
-    return this.validators.getValidationError(scenario[0].validators, validationError);
+    return this.validators.getValidationError(scenario[0].validators, validationError, replacements);
   }
 
   private init() {
-    this.scenarios.push(this.createScenarioItem('view1', 'field1', [ this.validators.getValidator('required') ], 'all'));
-    this.scenarios.push(this.createScenarioItem('view1', 'field2', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthTwenty')], 'lloyds'));
-    this.scenarios.push(this.createScenarioItem('view1', 'field2', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthFifty')], 'company'));
-    this.scenarios.push(this.createScenarioItem('view1', 'field3', [], 'lloyds'));
+    this.scenarios.push(this.createScenarioItem('sample-user', 'firstName', [ this.validators.getValidator('required') ], 'all'));
+    this.scenarios.push(this.createScenarioItem('sample-user', 'lloydsLastName', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthTwenty')], 'lloyds'));
+    this.scenarios.push(this.createScenarioItem('sample-user', 'lloydsLastName', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthFifty')], 'company'));
+    this.scenarios.push(this.createScenarioItem('sample-user', 'companyLastName', [], 'lloyds'));
   }
 
   private createScenarioItem(view: view, field: field, validators: ValidationWrapper[], visibility: visibility | visibility[] = 'all'): ScenarioItem {
