@@ -15,6 +15,7 @@ export class SampleUserComponent extends ValidatingComponent {
     lastName: new FormControl(null), // Only visible for company
     title: new FormControl(null),
     stamp: new FormControl(null), // Only visible for lloyds
+    market: new FormControl(null), // Only visible for company
   });
 
   constructor(scenarioService: ScenarioService) { 

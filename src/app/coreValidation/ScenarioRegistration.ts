@@ -11,6 +11,7 @@ export class ScenarioRegistration {
     scenarios.push(this.createScenarioItem('app-sample-user', 'companyLastName', 'company'));
     scenarios.push(this.createScenarioItem('app-sample-user', 'title', 'lloyds', validators.getValidator('minlength3'), validators.getValidator('required')));
     scenarios.push(this.createScenarioItem('view2', 'company', 'lloyds'));
+    scenarios.push(this.createScenarioItem('app-sample-user', 'market', 'lloyds', validators.getValidator('required'), validators.getValidator('minlength')));
   }
 
   createScenarioItem(view: view, field: field, scenario: scenario | scenario[] = 'all', ...validators: ValidationWrapper[]): ScenarioItem {

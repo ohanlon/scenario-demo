@@ -33,5 +33,13 @@
             <div>{{errors('title', 'Title')}}</div>
         </div>
     </div>
+    <div *ngIf="isVisible('market')">
+        <label for="market" class="control-label required">Market</label>
+        <input type="text" class="form-control" formControlName="market" placeholder="Market" title="Market"
+            [ngClass]="{ 'is-invalid': submitted && controls['market'].errors }">
+        <div *ngIf="controls['market'].errors" class="invalid-feedback">
+            <div>{{errors('market', 'Market')}}</div>
+        </div>
+    </div>
     <button type="submit">Submit Application</button>
 </form>

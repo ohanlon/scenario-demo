@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Directive, OnInit } from "@angular/core";
 import { ScenarioService } from "../../services/scenario.service";
 import { field, view, scenario } from "../ScenarioItem";
 import { FormGroup } from "@angular/forms";
@@ -7,9 +7,7 @@ import { FormGroup } from "@angular/forms";
 // The preInit method must be called from the constructor of the derived class, so that the 
 // formGroup, view, and visibility are registered before ngOnInit is run as these use the view
 // and visibility, as well as the formGroup.
-@Component({
-    template: ''
-})
+@Directive()
 export abstract class ValidatingComponent implements OnInit {
     private formGroup: FormGroup | null = null;
     private view: view | null = null;
