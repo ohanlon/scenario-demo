@@ -1,17 +1,16 @@
 import { ValidatorFn } from '@angular/forms';
-import { validationNames } from './ScenarioItem';
-
+import { validationName } from '../ScenarioItem';
 
 export class ValidationWrapper {
   private validator: ValidatorFn;
   private errorMessage: string;
   private type: string;
-  private friendlyName: string;
-  constructor(type: validationNames, validator: ValidatorFn, errorMessage: string, friendlyName: string) {
+  private name: string;
+  constructor(type: validationName, validator: ValidatorFn, errorMessage: string, name: string) {
     this.validator = validator;
     this.errorMessage = errorMessage;
     this.type = type;
-    this.friendlyName= friendlyName;
+    this.name= name;
   }
 
   get validation(): ValidatorFn {
@@ -26,7 +25,7 @@ export class ValidationWrapper {
     return this.type;
   }
 
-  get name(): string {
-    return this.friendlyName;
+  get friendlyName(): string {
+    return this.name;
   }
 }

@@ -1,48 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ValidatingComponent } from 'src/app/coreValidation/common/ValidatingComponent';
 import { ScenarioService } from 'src/app/services/scenario.service';
-import { field, view, visibility } from 'src/app/services/ScenarioItem';
 
 @Component({
   selector: 'app-sample-user',
   templateUrl: './sample-user.component.html',
   styleUrls: ['./sample-user.component.scss']
 })
-export class SampleUserComponent implements OnInit {
+export class SampleUserComponent extends ValidatingComponent {
 
   sampleForm = new FormGroup({
     firstName: new FormControl(null),
-    lloydsLastName: new FormControl(null),
-    companyLastName: new FormControl(null)
+    lastName: new FormControl(null), // Only visible for company
+    title: new FormControl(null),
+    stamp: new FormControl(null), // Only visible for lloyds
   });
-  constructor(private scenarioService: ScenarioService) { }
 
-  ngOnInit(): void {
-    this.scenarioService.setValidators(this.sampleForm, 'sample-user', 'lloyds');
+  constructor(scenarioService: ScenarioService) { 
+    super(scenarioService);
+    this.preInit(this.sampleForm, 'app-sample-user', 'lloyds');
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-    if (this.sampleForm.valid) {
-      console.log('form submitted');
-      this.sampleForm.reset();
-    } else {
-      this.scenarioService.triggerValidation(this.sampleForm);
-    }
+  doSubmit(): void {
+    console.log('form submitted');
   }
-
-  isVisible(field: field): boolean {
-    return this.scenarioService.showInForm('sample-user', 'lloyds', field);
-  }
-
-  submitted: boolean = false;
-
-  get controls() { return this.sampleForm.controls; }
-
-  errors(field: field, ...replacements: string[]): string {
-    const errors = this.sampleForm.get(field)?.errors;
-    if (!errors) return '';
-    return this.scenarioService.getValidationMessage('sample-user', 'lloydsLastName', 'lloyds', errors, replacements);
-  }
-
 }

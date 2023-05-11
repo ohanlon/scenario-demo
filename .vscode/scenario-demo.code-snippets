@@ -1,0 +1,17 @@
+{
+	"labinput": {
+		"scope": "html",
+		"prefix": "labinput",
+		"description": "Create a field that contains a label and an input, with an error block",
+		"body": [
+			"<div *ngIf=\"isVisible('$1')\">",
+			"    <label for=\"$1\" class=\"control-label required\">$2</label>",
+			"    <input type=\"text\" class=\"form-control\" formControlName=\"$1\" placeholder=\"$2\" title=\"$2\"",
+			"        [ngClass]=\"{ 'is-invalid': submitted && controls['$1'].errors }\">",
+			"    <div *ngIf=\"controls['$1'].errors\" class=\"invalid-feedback\">",
+			"        <div>{{errors('$1', '$2')}}</div>",
+			"    </div>",
+			"</div>"
+		]
+	}
+}

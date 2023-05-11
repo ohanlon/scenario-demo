@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ScenarioItem, visibility, view, field } from './ScenarioItem';
-import { FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ValidationWrapper } from './ValidationWrapper';
-import { ValidatorsService } from "./ValidatorsService";
+import { scenario, view, field } from '../coreValidation/ScenarioItem';
+import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ScenarioRegistration } from '../coreValidation/ScenarioRegistration';
+import { ValidationWrapper } from '../coreValidation/common/ValidationWrapper';
+import { ValidatorsService } from '../coreValidation/common/ValidatorsService';
+
+export interface ScenarioItem {
+  view: view;
+  field: field;
+  scenario: scenario | scenario[];
+  validators: ValidationWrapper[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +19,17 @@ export class ScenarioService {
 
   private scenarios: ScenarioItem[] = [];
   private validators: ValidatorsService = new ValidatorsService();
+  private ScenarioRegistration: ScenarioRegistration = new ScenarioRegistration();
   constructor() { 
-    this.init();
+    this.ScenarioRegistration.register(this.scenarios, this.validators);
   }
   
-  public getScenarios(view: view, visibility: visibility| visibility[]): ScenarioItem[] {
-    return this.scenarios.filter(s => s.view === view && s.visibility === visibility || s.visibility === 'all' );
+  public getScenarios(view: view, scenario: scenario| scenario[]): ScenarioItem[] {
+    return this.scenarios.filter(s => s.view === view && s.scenario === scenario || s.scenario === 'all' );
   }
 
-  setValidators(form: FormGroup, view: view, visibility: visibility | visibility[]): void {
-    this.getScenarios(view, visibility).forEach(s => {
+  setValidators(form: FormGroup, view: view, scenario: scenario | scenario[]): void {
+    this.getScenarios(view, scenario).forEach(s => {
       const field = form.controls[s.field];
       const validators = this.validators.getValidators(s.validators);
       field.setValidators(validators);
@@ -28,8 +37,8 @@ export class ScenarioService {
     });
   }
 
-  showInForm(view: view, visibility: visibility | visibility[], field: field): boolean {
-    return this.scenarios.filter(s => s.view === view && (s.visibility === visibility || s.visibility === 'all') && s.field === field).length > 0;
+  showInForm(view: view, scenario: scenario | scenario[], field: field): boolean {
+    return this.scenarios.filter(s => s.view === view && (s.scenario === scenario || s.scenario === 'all') && s.field === field).length > 0;
   }
 
   triggerValidation(form: FormGroup): void {
@@ -39,22 +48,8 @@ export class ScenarioService {
     });
   }
 
-  getValidationMessage(view: view, field: field, visibility: visibility, validationError: ValidationErrors, replacements: string[] = []): string {
-    const scenario = this.scenarios.filter(s => s.view === view && (s.visibility === visibility || s.visibility === 'all') && s.field === field);
-    return this.validators.getValidationError(scenario[0].validators, validationError, replacements);
-  }
-
-  private init() {
-    this.scenarios.push(this.createScenarioItem('sample-user', 'firstName', [ this.validators.getValidator('required') ], 'all'));
-    this.scenarios.push(this.createScenarioItem('sample-user', 'lloydsLastName', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthTwenty')], 'lloyds'));
-    this.scenarios.push(this.createScenarioItem('sample-user', 'lloydsLastName', [ this.validators.getValidator('required'), this.validators.getValidator('minlength'), this.validators.getValidator('maxlengthFifty')], 'company'));
-    this.scenarios.push(this.createScenarioItem('sample-user', 'companyLastName', [], 'lloyds'));
-  }
-
-  private createScenarioItem(view: view, field: field, validators: ValidationWrapper[], visibility: visibility | visibility[] = 'all'): ScenarioItem {
-    return {
-      view: view, field: field, visibility: visibility, validators: validators };
+  getValidationMessage(view: view, field: field, scenario: scenario, validationError: ValidationErrors, replacements: string[]): string {
+    const filter = this.scenarios.filter(s => s.view === view && (s.scenario === scenario || s.scenario === 'all') && s.field === field);
+    return this.validators.getValidationError(filter[0].validators, validationError, replacements);
   }
 }
-
-
